@@ -1,0 +1,48 @@
+:root {
+  --cell-size: calc(100vmin / 17);
+  --column-count: 17;
+  --row-count: 17;
+}
+
+* {
+  display: block;
+}
+
+body {
+  background-color: black;
+}
+
+game-map {
+  background-color: darkblue;
+  width: calc(var(--cell-size) * var(--column-count));
+  height: calc(var(--cell-size) * var(--row-count));
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+map-tile {
+  width: var(--cell-size);
+  height: var(--cell-size);
+}
+
+map-tile.grass {
+  background-color: green;
+}
+
+map-tile.wall {
+  background-color: gray;
+}
+
+player-character {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: orange;
+  width: var(--cell-size);
+  height: var(--cell-size);
+}
