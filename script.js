@@ -84,28 +84,48 @@ function handleMovement(event) {
   const { key } = event;
   const direction = key.replace('Arrow', '');
 
+  if (isBlocked(direction)) return;
+  
   movePlayer(direction);
 
   renderMap();//TODO: only render the affected area
   renderPlayer();
 }
 
+function isBlocked(direction) {
+  const { x, y } = player;
+  let tileX = x;
+  let tileY = y;
+
+  if (direction === 'Up') tileY--;
+  else if (direction === 'Down') tileY++;
+  else if (direction === 'Left') tileX--;
+  else if (direction === 'Right') tileX++;
+
+  const i = tileY - mapY;
+  const j = tileX - mapX;
+  
+  const tile = map[i][j];
+
+  return !tile;
+}
+
 function movePlayer(direction) {
   if (direction === 'Up') {
-    player.y -= 1;
-    player.row -= 1;
+    player.y--;
+    player.row--;
 
   } else if (direction === 'Down') {
-    player.y += 1;
-    player.row += 1;
+    player.y++;
+    player.row++;
   
   } else if (direction === 'Left') {
-    player.x -= 1;
-    player.column -= 1;
+    player.x--;
+    player.column--;
 
   } else if (direction === 'Right') {
-    player.x += 1;
-    player.column += 1;
+    player.x++;
+    player.column++;
   }
 
   const maxColumn = Math.floor(columnCount / 2) - 4;
@@ -142,8 +162,8 @@ function calculateViewport() {
   columnCount = Math.floor(innerWidth / cellSize);
   rowCount = Math.floor(innerHeight / cellSize);
 
-  if (columnCount % 2 == 0) columnCount -= 1;
-  if (rowCount % 2 == 0) rowCount -= 1;
+  if (columnCount % 2 == 0) columnCount--;
+  if (rowCount % 2 == 0) rowCount--;
 }
 
 function renderMap() {
