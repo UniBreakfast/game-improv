@@ -25,7 +25,7 @@ renderMap();
 renderPlayer();
 
 window.onkeydown = handlePlayerAction;
-window.onresize = renderMap;
+window.onresize = handleResize;
 
 function generateMap() {
   const map = [];
@@ -58,7 +58,9 @@ function updateMap() {
       map[i].unshift(genTile());
     }
 
-  } else if (map[0].length < Math.ceil(columnCount / 2) + viewPort.x - mapX) {
+  }
+  
+  if (map[0].length < Math.ceil(columnCount / 2) + viewPort.x - mapX) {
     for (let i = 0; i < map.length; i++) {
       map[i].push(genTile());
     }
@@ -75,7 +77,9 @@ function updateMap() {
     
     map.unshift(row);
 
-  } else if (map.length < Math.ceil(rowCount / 2) + viewPort.y - mapY) {
+  }
+  
+  if (map.length < Math.ceil(rowCount / 2) + viewPort.y - mapY) {
     const row = [];
 
     for (let i = 0; i < map[0].length; i++) {
@@ -84,6 +88,10 @@ function updateMap() {
 
     map.push(row);
   }
+}
+
+function updateViewport() {
+  
 }
 
 function handlePlayerAction(event) {
@@ -100,7 +108,17 @@ function handleMovement(event) {
   
   movePlayer(direction);
 
-  renderMap();//TODO: only render the affected area
+  renderMap();
+  renderPlayer();
+}
+
+function handleResize() {
+  calculateViewport();
+
+  updateViewport();
+  updateMap();
+
+  renderMap();
   renderPlayer();
 }
 
