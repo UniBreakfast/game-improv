@@ -34,7 +34,7 @@ function generateMap() {
     const row = [];
 
     for (let x = 0; x < columnCount; x++) {
-      row.push(Math.floor(Math.random() * 4));
+      row.push(genTile());
     }
 
     map.push(row);
@@ -46,31 +46,43 @@ function generateMap() {
   return map;
 }
 
+function genTile() {
+  return Math.floor(Math.random() * 4);
+}
+
 function updateMap() {
   if (mapX > viewPort.x - Math.floor(columnCount / 2)) {
     mapX--;
 
     for (let i = 0; i < map.length; i++) {
-      map[i].unshift(map[i].pop());
+      map[i].unshift(genTile());
     }
 
   } else if (map[0].length < Math.ceil(columnCount / 2) + viewPort.x - mapX) {
-    mapX++;
-
     for (let i = 0; i < map.length; i++) {
-      map[i].push(map[i].shift());
+      map[i].push(genTile());
     }
   }
 
   if (viewPort.y < mapY + Math.floor(rowCount / 2)) {
     mapY--;
 
-    map.unshift(map.pop());
+    const row = [];
+
+    for (let i = 0; i < map[0].length; i++) {
+      row.push(genTile());
+    }
+    
+    map.unshift(row);
 
   } else if (map.length < Math.ceil(rowCount / 2) + viewPort.y - mapY) {
-    mapY++;
+    const row = [];
 
-    map.push(map.shift());
+    for (let i = 0; i < map[0].length; i++) {
+      row.push(genTile());
+    }
+
+    map.push(row);
   }
 }
 
